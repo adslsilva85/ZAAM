@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Inclusivo - Adulto Mayor</title>
+    <!-- Tailwind CSS para diseño rápido y limpio -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React y Babel para simular componentes interactivos -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function App() {
+            const [mensajeVoz, setMensajeVoz] = useState("Toca el micrófono y dime en qué te puedo ayudar hoy.");
+            const [seccionActiva, setSeccionActiva] = useState("inicio");
+
+            const hablar = (texto) => {
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(texto);
+                    utterance.lang = 'es-ES';
+                    window.speechSynthesis.speak(utterance);
+                }
+            };
+
+            const activarAsistente = () => {
+                const texto = "Hola. Estoy aquí para ayudarte. ¿Deseas pagar la luz, ver tu pensión o llamar a tu familia?";
+                setMensajeVoz(texto);
+                hablar(texto);
+            };
+
+            return (
+                <div className="min-h-screen flex flex-col max-w-md mx-auto bg-white shadow-2xl border-x border-slate-200">
+                    {/* Encabezado */}
+                    <header className="bg-emerald-600 text-white p-6 text-center rounded-b-3xl shadow-lg">
+                        <h1 className="text-3xl font-bold tracking-wide">Mi Portal Fácil</h1>
+                        <p className="text-emerald-100 text-lg mt-1">Tu espacio simple y seguro</p>
+                    </header>
+
+                    {/* Asistente de Voz Destacado */}
+                    <div className="p-6 bg-emerald-50 m-4 rounded-2xl border-2 border-emerald-300 text-center">
+                        <button 
+                            onClick={activarAsistente}
+                            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-6 rounded-full shadow-lg text-2xl inline-flex items-center justify-center w-24 h-24 mx-auto transition transform hover:scale-105 active:scale-95"
+                            title="Hablar con el asistente"
+                        >
+                            🎤
+                        </button>
+                        <p className="mt-4 text-xl font-medium text-emerald-900">{mensajeVoz}</p>
+                        <button 
+                            onClick={() => hablar(mensajeVoz)}
+                            className="mt-3 text-sm bg-white border border-emerald-400 text-emerald-700 px-4 py-2 rounded-full font-semibold shadow-sm hover:bg-emerald-100"
+                        >
+                            🔊 Escuchar mensaje
+                        </button>
+                    </div>
+
+                    {/* Botones Principales Gigantes */}
+                    <main className="p-6 flex-1 grid grid-cols-1 gap-4">
+                        <button 
+                            onClick={() => { setMensajeVoz("Tu cuenta de luz está lista. El monto es de 15.800 pesos. Toca pagar para confirmar."); hablar("Tu cuenta de luz está lista. El monto es de 15.800 pesos."); }}
+                            className="bg-blue-600 hover:bg-blue-700 text-white p-6 rounded-2xl shadow-md flex items-center justify-between text-2xl font-bold transition transform hover:scale-[1.02]"
+                        >
+                            <span className="flex items-center">💡 Pagar Luz</span>
+                            <span className="text-3xl">👉</span>
+                        </button>
+
+                        <button 
+                            onClick={() => { setMensajeVoz("Tienes disponible tu Pensión Garantizada Universal para cobro este jueves."); hablar("Tienes disponible tu Pensión Garantizada Universal para cobro este jueves."); }}
+                            className="bg-amber-500 hover:bg-amber-600 text-white p-6 rounded-2xl shadow-md flex items-center justify-between text-2xl font-bold transition transform hover:scale-[1.02]"
+                        >
+                            <span className="flex items-center">🛡️ Mis Beneficios</span>
+                            <span className="text-3xl">👉</span>
+                        </button>
+
+                        <button 
+                            onClick={() => { setMensajeVoz("Llamando a tu hijo Juan de forma automática..."); hablar("Llamando a tu hijo Juan de forma automática."); }}
+                            className="bg-purple-600 hover:bg-purple-700 text-white p-6 rounded-2xl shadow-md flex items-center justify-between text-2xl font-bold transition transform hover:scale-[1.02]"
+                        >
+                            <span className="flex items-center">📞 Llamar a Familia</span>
+                            <span className="text-3xl">👉</span>
+                        </button>
+                    </main>
+
+                    {/* Botón de Ayuda Humana de Emergencia */}
+                    <footer className="p-6 bg-slate-100 border-t border-slate-200 text-center">
+                        <button 
+                            onClick={() => { setMensajeVoz("Conectando con un asistente social de ayuda..."); hablar("Conectando con un asistente social de ayuda."); }}
+                            className="w-full bg-rose-600 hover:bg-rose-700 text-white py-4 rounded-xl font-bold text-xl shadow"
+                        >
+                            🆘 Necesito Ayuda Humana
+                        </button>
+                    </footer>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
